@@ -1,3 +1,12 @@
+# 下記エラー
+# Failure/Error: it { should have_title(full_title('About'))}
+    #  NoMethodError:
+      #  undefined method `full_title'
+# エラーここまで
+include ApplicationHelper
+# 上記追加
+# 参考 http://yuheikagaya.hatenablog.jp/entry/2014/10/15/010935
+
 require 'spec_helper'
 
 describe "StaticPages" do
@@ -11,60 +20,48 @@ describe "StaticPages" do
 
   let(:base_title) { "Ruby on Rails Tutorial Sample App" }
 
+  # pageはテストの主題 (subject) であることをRSpecに伝える
+  subject { page }
+
   describe "Home page" do # 好きな文字列を指定できる
+    before { visit root_path }
 
-    it "should have the content 'Sample App'" do # RSpecはダブルクオートでくくられたものは無視する
-      visit '/static_pages/home'
-      expect(page).to have_content('Sample App')
-    end
+    # it "should have the content 'Sample App'" do # RSpecはダブルクオートでくくられたものは無視する
+    #   # Capybaraが提供するpage変数を使って、アクセスした結果のページに正しいコンテンツが表示されているかどうか
+    #   # expect(page).to have_content('Sample App')
+    # end
+    it { should have_content('Sample App') }
+    # spec/supportディレクトリのfull_titleヘルパー
+    it { should have_title(full_title('')) }
+    it { should_not have_title('| Home') }
 
-    it "should have the right title" do
-      visit '/static_pages/home'
-      expect(page).to have_title("#{base_title}")
-    end
-
-    it "should not have a custom page title" do
-      visit '/static_pages/home'
-      expect(page).not_to have_title('| Home')
-    end
+    # it "should have the right title" do
+    #   expect(page).to have_title("#{base_title}")
+    # end
+    #
+    # it "should not have a custom page title" do
+    #   expect(page).not_to have_title('| Home')
+    # end
   end
 
   describe "Help page" do
+    before { visit help_path }
 
-    it "should have the content 'Help'" do
-      visit '/static_pages/help'
-      expect(page).to have_content('Help')
-    end
-
-    it "should have the right title" do
-      visit '/static_pages/help'
-      expect(page).to have_title("#{base_title} | Help")
-    end
+    it { should have_content('Help')}
+    it { should have_title(full_title('Help'))}
   end
 
   describe "About page" do
+    before { visit about_path }
 
-    it "should have the content 'About us'" do
-      visit '/static_pages/about'
-      expect(page).to have_content('About Us')
-    end
-
-    it "should have the right title" do
-      visit '/static_pages/about'
-      expect(page).to have_title("#{base_title} | About Us")
-    end
+    it { should have_content('About')}
+    it { should have_title(full_title('About'))}
   end
 
   describe "Contact page" do
+    before { visit contact_path }
 
-    it "should have the content 'Contact'" do
-      visit '/static_pages/contact'
-      expect(page).to have_content('Contact')
-    end
-
-    it "should have the right title" do
-      visit '/static_pages/contact'
-      expect(page).to have_title("#{base_title} | Contact")
-    end
+    it { should have_content('Contact')}
+    it { should have_title(full_title('Contact'))}
   end
 end
