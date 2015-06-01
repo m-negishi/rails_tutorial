@@ -12,48 +12,49 @@ describe "StaticPages" do
 
   let(:base_title) { "Ruby on Rails Tutorial Sample App" }
 
+  shared_examples_for "all static pages" do
+    it { should have_content(heading) }
+    it { should have_title(full_title(page_title)) }
+  end
+
   # pageはテストの主題 (subject) であることをRSpecに伝える
   subject { page }
 
   describe "Home page" do # 好きな文字列を指定できる
     before { visit root_path }
 
-    # it "should have the content 'Sample App'" do # RSpecはダブルクオートでくくられたものは無視する
-    #   # Capybaraが提供するpage変数を使って、アクセスした結果のページに正しいコンテンツが表示されているかどうか
-    #   # expect(page).to have_content('Sample App')
-    # end
-    it { should have_content('Sample App') }
-    # spec/supportディレクトリのfull_titleヘルパー
-    it { should have_title(full_title('')) }
-    it { should_not have_title('| Home') }
+    let(:heading) { 'Sample App' }
+    let(:page_title) { '' }
 
-    # it "should have the right title" do
-    #   expect(page).to have_title("#{base_title}")
-    # end
-    #
-    # it "should not have a custom page title" do
-    #   expect(page).not_to have_title('| Home')
-    # end
+    it_should_behave_like "all static pages"
+    it { should_not have_title('| Home') }
   end
 
   describe "Help page" do
     before { visit help_path }
 
-    it { should have_content('Help')}
-    it { should have_title(full_title('Help'))}
+    let(:heading) { 'Help' }
+    let(:page_title) { 'Help' }
+
+    # shared_example_forを呼び出す
+    it_should_behave_like "all static pages"
   end
 
   describe "About page" do
     before { visit about_path }
 
-    it { should have_content('About')}
-    it { should have_title(full_title('About'))}
+    let(:heading) { 'About' }
+    let(:page_title) { 'About' }
+
+    it_should_behave_like "all static pages"
   end
 
   describe "Contact page" do
     before { visit contact_path }
 
-    it { should have_content('Contact')}
-    it { should have_title(full_title('Contact'))}
+    let(:heading) { 'Contact' }
+    let(:page_title) { 'Contact' }
+
+    it_should_behave_like "all static pages"
   end
 end
