@@ -51,6 +51,13 @@ Spork.prefork do
     config.order = "random"
 
     config.include Capybara::DSL
+
+    # Rspecでroutesのテストが通過できないので以下を追加
+    config.include Rails.application.routes.url_helpers
+    # 下記参考
+    # ruby on rails – undefined local variable or method `root_path’ – Stack Overflow
+    # http://stackoverflow.com/questions/22741975/undefined-local-variable-or-method-root-path
+    # http://loumo.jp/wp/archive/20141208002407/
   end
 end
 
