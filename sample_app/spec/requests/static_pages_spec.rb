@@ -1,12 +1,4 @@
-# 下記エラー
-# Failure/Error: it { should have_title(full_title('About'))}
-    #  NoMethodError:
-      #  undefined method `full_title'
-# エラーここまで
 include ApplicationHelper
-# 上記追加
-# 参考 http://yuheikagaya.hatenablog.jp/entry/2014/10/15/010935
-
 require 'spec_helper'
 
 describe "StaticPages" do
