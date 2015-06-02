@@ -2,13 +2,17 @@ require 'spec_helper'
 
 describe User do
   # beforeブロック内では、ただ属性のハッシュをnewに渡せるかどうかをテストしているだけ
-  before { @user = User.new(name: "Example User", email: "user@example.com") }
+  before { @user = User.new(name: "Example User", email: "user@example.com", password: 'foobar', password_confirmation: 'foobar') }
 
   subject{ @user }
 
   # Userオブジェクトがname属性を持っていない場合、beforeブロックの中で例外を投げるので、一見、これらのテストが冗長に思えるかもしれません。しかし、これらのテストを追加することで、user.nameやuser.emailが正しく動作することを保証できます
   it { should respond_to(:name) }
   it { should respond_to(:email) }
+  it { should respond_to(:password_digest) }
+  it { should respond_to(:password) }
+  it { should respond_to(:password_confirmation) }
+  it { should respond_to(:authenticate) }
 
   # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に) 存在します。
   it { should be_valid }
@@ -61,5 +65,38 @@ describe User do
     end
 
     it { should_not be_valid }
+  end
+
+  # パスワードとパスワード確認が不一致のテスト
+  describe "when password doesn't match confirmation" do
+    before { @user.password_confirmation = 'mismatch' }
+    it { should_not be_valid }
+  end
+
+  # パスワードが一致する場合と一致しない場合のテスト
+  describe "return value of authenticate method" do
+    # ユーザを保存して、findメソッドが使用できるようにする
+    before { @user.save }
+    # letはブロックを引数に取り、letの引数であるシンボルにそのブロックの値を返す
+    let(:found_user) { User.find_by(email: @user.email) }
+
+    describe "with valid password" do
+      # eqはオブジェクト同士が同値であるか調べる
+      it { should eq found_user.authenticate(@user.password) }
+    end
+
+    describe "with invalid password" do
+      # matchしないパスワードをauthenticateメソッドに渡し、その結果(false)をletの引数に渡す
+      let(:user_for_invalid_password) { found_user.authenticate('invalid') }
+
+      it { should_not eq user_for_invalid_password }
+      specify { expect(user_for_invalid_password).to be_false }
+    end
+  end
+
+  # パスワードの長さ
+  describe "with a password that's too short" do
+    before { @user.password = @user.password_confirmation = 'a' * 5 }
+    it { should be_invalid }
   end
 end
