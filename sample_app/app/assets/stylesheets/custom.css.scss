@@ -4,6 +4,12 @@
 
 $grayMegiumLight: #eaeaea;
 
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 // Universal
 
 html {
@@ -28,10 +34,6 @@ textarea {
     margin-bottom: 10px;
   }
 }
-
-// .center h1 {
-//   margin-bottom: 10px;
-// }
 
 // typography
 
@@ -79,12 +81,6 @@ p {
   }
 }
 
-// #logo:hover {
-//   color: #fff;
-//   text-decoration: none;
-// }
-
-
 // footer
 
 footer {
@@ -111,24 +107,43 @@ footer {
   }
 }
 
-// footer a {
-//   color: #555;
-// }
+// miscellaneous
 
-// footer a:hover {
-//   color: #222;
-// }
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box-sizing;
+}
 
-// footer small {
-//   float: left;
-// }
 
-// footer ul {
-//   float: right;
-//   list-style: none;
-// }
+// sidebar
 
-// footer ul li {
-//   float: left;
-//   margin-left: 10px;
-// }
+aside {
+  section {
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    &:first-child {
+      border: 0;
+      padding-top: 0;
+    }
+    span {
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1;
+    }
+    h1 {
+      font-size: 1.4em;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 3px;
+      margin-top: 0px;
+    }
+  }
+}
+
+.gravatar {
+  float: left;
+  margin-right: 10px;
+}
