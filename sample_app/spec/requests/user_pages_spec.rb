@@ -29,4 +29,39 @@ describe "Users pages" do
     it { should have_content(user.name) }
     it { should have_title(user.name) }
   end
+
+  describe "signup" do
+
+    before { visit signup_path }
+
+    let(:submit) { "Create my account" }
+
+    describe "with invalid information" do
+      it "should not create a user" do
+        # changeメソッドは、オブジェクトとシンボルを引数にとる
+        # シンボルに該当するメソッドを呼び出す
+        expect { click_button submit }.not_to change(User, :count)
+        # 上記は以下と同等のコード
+        # initial = User.count
+        # click_button "Create my account"
+        # final = User.count
+        # expect(initial).to eq final
+      end
+    end
+
+    describe "with valid information" do
+      before do
+        # フォームに値を入れる
+        fill_in "Name", with: "Example User"
+        fill_in "Email", with: "user@example.com"
+        fill_in "Password", with: "foobar"
+        fill_in "Confirmation", with: "foobar"
+      end
+
+      it "should create a user" do
+        # カウントが1つ増えることを確認
+        expect { click_button submit }.to change(User, :count).by(1)
+      end
+    end
+  end
 end
