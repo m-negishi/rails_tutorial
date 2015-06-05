@@ -12,7 +12,8 @@
   <div class="container">
     <% flash.each do |key, value| %>
       <!-- keyはシンボルだが、自動的に文字列に変換してからテンプレートに挿入する -->
-      <div class="alert alert-<%= key %>"><%= value %></div>
+      <!-- content_tagヘルパー　動的にタグを生成してくれる -->
+      <%= content_tag(:div, value, class: "alert alert-#{key}") %>
     <% end %>
     <%= yield %>
     <%= render 'layouts/footer' %>

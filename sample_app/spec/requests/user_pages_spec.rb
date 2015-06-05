@@ -47,6 +47,14 @@ describe "Users pages" do
         # final = User.count
         # expect(initial).to eq final
       end
+
+      # エラーメッセージのテスト
+      describe "after submission" do
+        before { click_button submit }
+
+        it { should have_title('Sign up') }
+        it { should have_content('error') }
+      end
     end
 
     describe "with valid information" do
@@ -61,6 +69,17 @@ describe "Users pages" do
       it "should create a user" do
         # カウントが1つ増えることを確認
         expect { click_button submit }.to change(User, :count).by(1)
+      end
+
+      # createアクションでユーザが保存された後の動作をテスト
+      describe "after saving the user" do
+        before { click_button submit }
+        let(:user) { User.find_by(email: 'user@example.com') }
+
+        it { should have_link('Sign out') }
+        it { should have_title(user.name) }
+        # have_selectorメソッドは、特定のCSSクラスに属する特定のHTMLタグが存在するかテスト
+        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
     end
   end
