@@ -26,6 +26,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
   private
     # Strong Parametersを使いやすくする
     def user_params
