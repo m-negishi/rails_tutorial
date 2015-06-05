@@ -14,6 +14,9 @@ class UsersController < ApplicationController
     if @user.save
       # 保存が成功した場合の処理
 
+      # SessionsHelperをApplicationControllerでincludeしているので呼び出せる
+      sign_in @user
+
       flash[:success] = "Welcome to the Sample App!"
 
       #redirect_to user_url(id: @user.id) と同じ挙動？

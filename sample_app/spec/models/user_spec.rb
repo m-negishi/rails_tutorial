@@ -13,6 +13,7 @@ describe User do
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:remember_token) }
 
   # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に) 存在します。
   it { should be_valid }
@@ -98,5 +99,13 @@ describe User do
   describe "with a password that's too short" do
     before { @user.password = @user.password_confirmation = 'a' * 5 }
     it { should be_invalid }
+  end
+
+  # sessionのトークンが保存されているか確認
+  describe "remember token" do
+    before { @user.save }
+
+    # itsメソッドは、itと似ていますが、itが指すテストのsubject (ここでは@user) そのものではなく、引数として与えられたその属性 (この場合は:remember_token) に対してテストを行うときに使用します。
+    its(:remember_token) { should_not be_blank }
   end
 end
