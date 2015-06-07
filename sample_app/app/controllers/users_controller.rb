@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+  # before_actionで、actionの前に処理を実行できる
+  # onlyを使うことで、特定のメソッドにだけ適用できる
+  before_action :signed_in_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
+
   def show
     @user = User.find(params[:id])
   end
@@ -27,11 +32,13 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    # @user = User.find(params[:id])
+    # before_actionで、correct_userメソッドを実行しており、current_user?メソッド、current_userメソッド(SessionsHelper)で、@userが定義できているので、上記は不要
   end
 
   def update
-    @user = User.find(params[:id])
+    # @user = User.find(params[:id])
+    # editアクションと同様に上記は不要
     if @user.update_attributes(user_params)
       # 更新に成功した場合を扱う
       flash[:success] = 'Profile updated'
@@ -45,5 +52,20 @@ class UsersController < ApplicationController
     # Strong Parametersを使いやすくする
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    # Before actions
+
+    def signed_in_user
+      unless signed_in?
+        # 遷移しようとしていたurlを保持(SessionsHelper)
+        store_location
+        redirect_to signin_url, notice: 'Please sign in.'
+      end
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_path) unless current_user?(@user)
     end
 end
