@@ -1,0 +1,15 @@
+<!-- エラーメッセージのパーシャル -->
+<%= render 'shared/error_messages' %>
+<!-- :nameは、@userオブジェクトの属性を設定する -->
+<!-- Userモデルのname属性を作成 -->
+<%= f.label :name %>
+<%= f.text_field :name %>
+
+<%= f.label :email %>
+<%= f.text_field :email %>
+
+<%= f.label :password %>
+<%= f.password_field :password %>
+
+<%= f.label :password_confirmation, "Confirmation" %>
+<%= f.password_field :password_confirmation %>
