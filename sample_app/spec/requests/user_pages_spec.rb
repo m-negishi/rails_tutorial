@@ -14,6 +14,44 @@ describe "Users pages" do
 
   subject { page }
 
+  # ユーザindexにアクセスしたときに、各ユーザ(ログインユーザ以外も含めた)情報が表示されているか確認
+  describe "index" do
+    # before do
+    #   sign_in FactoryGirl.create(:user)
+    #   FactoryGirl.create(:user, name: "Bob", email: "bob@example.com")
+    #   FactoryGirl.create(:user, name: "Ben", email: "ben@exapmle.com")
+    #   visit users_path
+    # end
+    let(:user) { FactoryGirl.create(:user) }
+    # before(:each)は、各itが実行される前に実行され、次のitが実行される前に状態等は戻る
+    before(:each) do
+      sign_in user
+      visit users_path
+    end
+
+    it { should have_title('All users') }
+    it { should have_content('All users') }
+
+    describe "pagination" do
+      # before(:all)は一度だけ実行される
+      before(:all) { 30.times { FactoryGirl.create(:user) } }
+      after(:all) { User.delete_all }
+
+      it { should have_selector('div.pagination') }
+
+      it "should list each user" do
+        # User.allだとレコードが多いと遅くなる
+        # User.all.each do |user|
+        # ページネーション
+        User.paginate(page: 1).each do |user|
+          expect(page).to have_selector('li', text: user.name)
+          # 上記はこれと同値？
+          # it { should have_selector('li', text: user.name) }
+        end
+      end
+    end
+  end
+
   describe "signup page" do
     before { visit signup_path }
 

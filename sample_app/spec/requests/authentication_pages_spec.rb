@@ -39,6 +39,7 @@ describe "AuthenticationPages" do
         it { should have_link('Settings',    href: edit_user_path(user)) }
         it { should have_link('Sign out',    href: signout_path) }
         it { should_not have_link('Sign in', href: signin_path) }
+        it { should have_link('Users', href: users_path) }
 
       # サインアウトをテスト（Sign outをクリックして、再びサインイン用のリンクが表示されるか）
       describe "followed by signout" do
@@ -86,6 +87,13 @@ describe "AuthenticationPages" do
 
           # responseオブジェクトは、サーバの応答のテストができる
           specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe "visiting the user index" do
+          # ユーザindexページはサインインしたユーザにしか見えないようにする
+          # サインインしていない場合は、サインインページにリダイレクトする
+          before { visit users_path }
+          it { should have_title('Sign in') }
         end
       end
     end
