@@ -16,4 +16,10 @@ FactoryGirl.define do
       admin true
     end
   end
+
+  factory :micropost do
+    content "Lorem ipsum"
+    # ここにuserを含めるだけで、関連付けができる
+    user
+  end
 end

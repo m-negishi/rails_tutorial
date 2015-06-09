@@ -15,6 +15,7 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }# 管理者権限
+  it { should respond_to(:microposts) }
 
   # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に) 存在します。
   it { should be_valid }
@@ -121,5 +122,35 @@ describe User do
 
     # itsメソッドは、itと似ていますが、itが指すテストのsubject (ここでは@user) そのものではなく、引数として与えられたその属性 (この場合は:remember_token) に対してテストを行うときに使用します。
     its(:remember_token) { should_not be_blank }
+  end
+
+  describe "micropost associations" do
+
+    before { @user.save }
+    # let!(letバン):強制的に即座に変数を初期化する
+    let!(:older_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
+    end
+
+    it "should have the right microposts in the right order" do
+      # user.micropostsが正しいuserのmicropostを返しているか
+      # 新しいpostと古いpostの順序を確認
+      expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
+    end
+
+    it "should destroy associated microposts" do
+      # to_aをつけることで、オブジェクトがコピーされる(userが削除されてもコピーしたmicropostsオブジェクトは消えない)
+      microposts = @user.microposts.to_a
+      @user.destroy
+      # コピーされたオブジェクトが消えてないか確認
+      expect(microposts).not_to be_empty
+      microposts.each do |micropost|
+        # findメソッドだと例外が発生するので、whereメソッドを使って、nilを受け取る
+        expect(Micropost.where(id: micropost.id)).to be_empty
+      end
+    end
   end
 end
