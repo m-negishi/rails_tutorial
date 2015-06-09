@@ -14,9 +14,23 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
+  it { should respond_to(:admin) }# 管理者権限
 
   # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に) 存在します。
   it { should be_valid }
+  # admin?メソッドが存在しない
+  it { should_not be_admin }
+
+  describe "with admin attribute set to 'true'" do
+    before do
+      @user.save!
+      # falseからtrueへ管理者権限を変更
+      @user.toggle!(:admin)
+    end
+
+    # 論理値を調べるadmin?メソッドが存在するかテスト
+    it { should be_admin }
+  end
 
   # まずユーザーのnameに無効な値 (blank) を設定し、@userオブジェクトの結果も無効になることをテストして確認
   describe "when name is not present" do

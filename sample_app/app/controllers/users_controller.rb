@@ -56,6 +56,7 @@ class UsersController < ApplicationController
   private
     # Strong Parametersを使いやすくする
     def user_params
+      # admin属性は編集可能になってはならない属性なので、外してある
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 

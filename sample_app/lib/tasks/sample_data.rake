@@ -2,19 +2,21 @@ namespace :db do
   desc "Fill database with sample data"
   task populate: :environment do
     # create!は、ユーザが無効な場合にfalseではなく例外を発生させるので、デバッグが容易に
-    User.create!(
+    admin = User.create!(
       name: "Example User",
       email: "example@railstutorial.jp",
       password: "foobar",
-      password_confirmation: "foobar"
+      password_confirmation: "foobar",
+      admin: true
     )
 
     # 根岸デバッグ用
     User.create!(
       name: "negi test",
       email: "negi@test.com",
-      password: "neginegi"
-      password_confirmation: "neginegi"
+      password: "neginegi",
+      password_confirmation: "neginegi",
+      admin: true
     )
 
     98.times do |n|
