@@ -1,14 +1,14 @@
 <!-- 複数のコントロールに渡るビューに対するパーシャルは、専用のsharedディレクトリを使う -->
 
 <!-- anyメソッドは一つでも要素がある場合はtrue -->
-<% if @user.errors.any? %>
+<% if object.errors.any? %>
   <div id="error_explanation">
     <div class="alert alert-error">
       <!-- pluaralizeは、第一引数に数字を渡すと、それに基づいて2番目の引数の複数形に変更したものを返す、TextHelper -->
-      The form contains <%= pluralize(@user.errors.count, "error") %>.
+      The form contains <%= pluralize(object.errors.count, "error") %>.
     </div>
     <ul>
-      <% @user.errors.full_messages.each do |msg| %>
+      <% object.errors.full_messages.each do |msg| %>
         <li>* <%= msg %></li>
       <% end %>
     </ul>

@@ -49,4 +49,14 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.url
   end
+
+  # UserControllerより移植
+  # MicropostControllerでも使いたいため
+  def signed_in_user
+    unless signed_in?
+      # 遷移しようとしていたurlを保持(SessionsHelper)
+      store_location
+      redirect_to signin_url, notice: 'Please sign in.'
+    end
+  end
 end

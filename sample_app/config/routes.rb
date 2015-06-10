@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # 上記を追加すると、名前付きルートに従って、自動的にアクションが追加される
   # get 'users/new' # 7.1.2で消す予定
   resources :sessions, only: [:new, :create, :destroy]
+  resources :microposts, only: [:create, :destroy]
 
   root 'static_pages#home'
   match '/signup', to: 'users#new', via: 'get'

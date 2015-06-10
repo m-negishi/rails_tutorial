@@ -1,5 +1,5 @@
 <!-- エラーメッセージのパーシャル -->
-<%= render 'shared/error_messages' %>
+<%= render 'shared/error_messages', object: f.object %>
 <!-- :nameは、@userオブジェクトの属性を設定する -->
 <!-- Userモデルのname属性を作成 -->
 <%= f.label :name %>
