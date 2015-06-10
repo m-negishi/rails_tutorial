@@ -23,6 +23,14 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(token.to_s)
   end
 
+  def feed
+    # 11章で完全なメソッドになる
+    # 下記でも可能
+    # 疑問符があることで、idが確実にエスケープされる
+    # Micropost.where("user_id = ?", id)
+    Micropost.where(user_id: id)
+  end
+
   private
 
     def create_remember_token
