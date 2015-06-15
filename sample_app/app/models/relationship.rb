@@ -4,4 +4,6 @@ class Relationship < ActiveRecord::Base
   # しかし、Followerモデルは存在しないので、参照するクラス名を明示する必要がある
   belongs_to :follower, class_name: 'User'
   belongs_to :followed, class_name: 'User'
+  validates :follower_id, presence: true
+  validates :followed_id, presence: true
 end
