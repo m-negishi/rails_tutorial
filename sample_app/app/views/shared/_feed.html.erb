@@ -1,0 +1,9 @@
+<% if @feed_items.any? %>
+  <ol class="microposts">
+    <!-- collectionは部分テンプレートを繰り返し表示 -->
+    <!-- collectionパラメータを渡したときは、partialを明示的に指定する -->
+    <!-- コレクションの各itemを表示するために、feed_itemを使用してくれる -->
+    <%= render partial: 'shared/feed_item', collection: @feed_items %>
+  </ol>
+  <%= will_paginate @feed_items %>
+<% end %>
