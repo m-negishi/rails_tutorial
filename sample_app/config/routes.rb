@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users do
+    # memberメソッドは、ユーザidを含むURLに、そのrouteが応答できるようにするもの
+    member do
+      get :following, :followers
+    end
+  end
   # 上記を追加すると、名前付きルートに従って、自動的にアクションが追加される
   # get 'users/new' # 7.1.2で消す予定
   resources :sessions, only: [:new, :create, :destroy]

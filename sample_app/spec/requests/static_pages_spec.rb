@@ -1,3 +1,8 @@
+# なぜか、support/utilitiesが読み込めないときがあり、
+# 下記を消す場合はspec_helperにrequireするか、
+# Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }のdirectoryの階層を一つ減らす
+# include ApplicationHelper
+
 require 'spec_helper'
 
 describe "StaticPages" do
@@ -42,6 +47,18 @@ describe "StaticPages" do
           ##{item.id}の一つ目の#はCSSのid、2つ目の#は式展開
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
+      end
+
+      # Homeページにて、フォロー・フォロワーの数を表示
+      describe "follower/following counts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          other_user.follow!(user)
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
       end
     end
   end

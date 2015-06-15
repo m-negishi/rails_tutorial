@@ -68,6 +68,14 @@ class UsersController < ApplicationController
     end
   end
 
+  # def following
+  #
+  # end
+  #
+  # def followed
+  #
+  # end
+
   private
     # Strong Parametersを使いやすくする
     def user_params

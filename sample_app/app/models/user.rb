@@ -4,12 +4,17 @@ class User < ActiveRecord::Base
   # ここではユーザを扱っているが、relationshipsのテーブルのユーザはuser_idではなく、
   # 外部キーであるfollower_idによって特定されるので、明示的に示す
   has_many :relationships, foreign_key: 'follower_id', dependent: :destroy
-
   # has_many :followed_users, through: :relationships
   # このコードはrelationshipsテーブルのfollowed_idを使用して配列を作成する
   # しかし、user.followedsとすると英語としておかしくなるので、user.followed_usersをフォローしているユーザの配列とする
   # followed_users配列の元が、followed id の集合であることを明示するために、sourceで指定する
   has_many :followed_users, through: :relationships, source: :followed
+
+  # classを指定しないと、存在しないReverseRelationshipクラスを探しにいってしまう
+  has_many :reverse_relationships, foreign_key: 'followed_id', class_name: 'Relationship', dependent: :destroy
+  # 下記はsourceを省略してもよい
+  # :followers属性の場合、外部キーは属性を単数形にしたfollower_idを自動で探してくれるため
+  has_many :followers, through: :reverse_relationships, source: :follower
 
   before_save { self.email = email.downcase }
   # 上記のように明示的にブロックで渡しているが、以下のようにメソッド参照（メソッドを探す）する方が一般的
