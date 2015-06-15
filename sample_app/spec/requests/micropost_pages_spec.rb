@@ -32,9 +32,24 @@ describe "MicropostPages" do
     describe "with valid information" do
 
       before { fill_in 'micropost_content', with: "Lorem ipsum" }
-      
+
       it "should create a micropost" do
         expect { click_button "Post" }.to change(Micropost, :count).by(1)
+      end
+    end
+  end
+
+  # マイクロポスト削除
+  describe "micropost destruction" do
+    before { FactoryGirl.create(:micropost, user: user) }
+
+
+    describe "as correct user" do
+      before { visit root_path }
+
+      it "should delete a micropost" do
+        # deleteリンクをクリックしたときに、マイクロポストのカウントが1つ減っている
+        expect { click_link "delete" }.to change(Micropost, :count).by(-1)
       end
     end
   end
