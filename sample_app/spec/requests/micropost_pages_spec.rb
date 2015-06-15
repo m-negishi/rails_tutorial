@@ -36,9 +36,26 @@ describe "MicropostPages" do
       it "should create a micropost" do
         expect { click_button "Post" }.to change(Micropost, :count).by(1)
       end
+
+      describe "should have correct count when create a post" do
+        before { click_button "Post" }
+
+        it { should have_content('1 micropost') }
+        it { should_not have_content('1 microposts') }
+      end
+
+      describe "should have correct count when create 2 posts" do
+        before do
+          click_button "Post"
+          # 2つ目のpost
+          fill_in 'micropost_content', with: "Lorem ipsum"
+          click_button "Post"
+        end
+
+        it { should have_content('2 microposts') }
+      end
     end
   end
-
   # マイクロポスト削除
   describe "micropost destruction" do
     before { FactoryGirl.create(:micropost, user: user) }
