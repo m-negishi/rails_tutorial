@@ -1,8 +1,3 @@
-# なぜか、support/utilitiesが読み込めないときがあり、
-# 下記を消す場合はspec_helperにrequireするか、
-# Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }のdirectoryの階層を一つ減らす
-# include ApplicationHelper
-
 require 'spec_helper'
 
 describe "StaticPages" do
