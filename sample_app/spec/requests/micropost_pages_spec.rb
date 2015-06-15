@@ -14,6 +14,28 @@ describe "MicropostPages" do
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 
+  # exercise10.5.2
+  describe "pagination" do
+    # before(:all)は一度だけ実行される
+    before do
+      40.times { FactoryGirl.create(:micropost, user: user) }
+      visit root_path
+    end
+
+    it { should have_selector('div.pagination') }
+
+    it "should list each micropost" do
+      # User.allだとレコードが多いと遅くなる
+      # User.all.each do |user|
+      # ページネーション
+      user.microposts.paginate(page: 1).each do |micropost|
+        expect(page).to have_selector('li', text: micropost.content)
+        # 上記はこれと同値？
+        # it { should have_selector('li', text: user.name) }
+      end
+    end
+  end
+
   describe "micropost creation" do
     before { visit root_path }
 
@@ -68,6 +90,17 @@ describe "MicropostPages" do
         # deleteリンクをクリックしたときに、マイクロポストのカウントが1つ減っている
         expect { click_link "delete" }.to change(Micropost, :count).by(-1)
       end
+    end
+
+    # exercise10.5.4
+    describe "as incorrect user without delete link" do
+      let(:other_user) { FactoryGirl.create(:user) }
+      before do
+        FactoryGirl.create(:micropost, user: other_user)
+        visit user_path(other_user)
+      end
+
+      it { should_not have_link('delete') }
     end
   end
 end
