@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # before_actionで、actionの前に処理を実行できる
   # onlyを使うことで、特定のメソッドにだけ適用できる
-  before_action :signed_in_user, only: [:index, :edit, :update]
+  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
   before_action :signined, only: [:create, :new]
@@ -68,13 +68,19 @@ class UsersController < ApplicationController
     end
   end
 
-  # def following
-  #
-  # end
-  #
-  # def followed
-  #
-  # end
+  def following
+    @title = 'Following'
+    @user = User.find(params[:id])
+    @users = @user.followed_users.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = 'Followers'
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
+  end
 
   private
     # Strong Parametersを使いやすくする
