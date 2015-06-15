@@ -16,6 +16,8 @@ describe User do
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }# 管理者権限
   it { should respond_to(:microposts) }
+  it { should respond_to(:feed) }
+  it { should respond_to(:relationships) }
 
   # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に) 存在します。
   it { should be_valid }

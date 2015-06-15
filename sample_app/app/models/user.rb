@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
   has_many :microposts, dependent: :destroy
+  # Userモデルオブジェクトの外部キーは、user_idだとRailsは推測する
+  # ここではユーザを扱っているが、relationshipsのテーブルのユーザはuser_idではなく、
+  # 外部キーであるfollower_idによって特定されるので、明示的に示す
+  has_many :relationships, foreign_key: 'follower_id', dependent: :destroy
   before_save { self.email = email.downcase }
   # 上記のように明示的にブロックで渡しているが、以下のようにメソッド参照（メソッドを探す）する方が一般的
   before_create :create_remember_token
