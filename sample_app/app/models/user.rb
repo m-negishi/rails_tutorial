@@ -40,11 +40,12 @@ class User < ActiveRecord::Base
   end
 
   def feed
-    # 11章で完全なメソッドになる
     # 下記でも可能
     # 疑問符があることで、idが確実にエスケープされる
     # Micropost.where("user_id = ?", id)
-    Micropost.where(user_id: id)
+    # 11章で下記コメントアウト
+    # Micropost.where(user_id: id)
+    Micropost.from_users_followed_by(self)
   end
 
   # あるユーザが別のあるユーザをフォローしているかチェック
