@@ -9,6 +9,9 @@ class SessionsController < ApplicationController
       # redirect_to user
       # サインイン前にアクセスのあったURLにリダイレクト
       redirect_back_or user
+      # 下記のほうが自然？
+      # でもテスト一部書き換え必要
+      # redirect_back_or root_url
     else
       flash.now[:error] = 'Invalid email/password combination' # このままでは誤り
       render 'new'
