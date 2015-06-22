@@ -30,8 +30,16 @@ describe Micropost do
     it { should_not be_valid }
   end
 
-  describe "with content that is too logn" do
+  describe "with content that is too long" do
     before { @micropost.content = "a" * 141 }
     it { should_not be_valid }
+  end
+
+  describe "with reply content is present" do
+    before do
+      @micropost.content = "@#{@micropost.user.name} reply test"
+    end
+
+    it { should be_valid }
   end
 end
