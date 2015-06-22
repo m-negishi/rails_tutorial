@@ -20,7 +20,10 @@ class User < ActiveRecord::Base
   # 上記のように明示的にブロックで渡しているが、以下のようにメソッド参照（メソッドを探す）する方が一般的
   before_create :create_remember_token
 
-  validates :name, presence: true, length: { maximum: 50 }
+  validates :name, presence: true,
+                   length: { maximum: 50 },
+                   uniqueness: { case_sensitive: true }
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true,
                     format: { with: VALID_EMAIL_REGEX },

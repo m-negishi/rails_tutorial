@@ -23,7 +23,7 @@ describe User do
   it { should respond_to(:follow!) }
   it { should respond_to(:unfollow!) }
 
-  # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に) 存在します。
+  # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に)存在します。
   it { should be_valid }
   # admin?メソッドが存在しない
   it { should_not be_admin }
@@ -76,6 +76,16 @@ describe User do
         expect(@user).to be_valid
       end
     end
+  end
+
+  # nameの一意性の保証
+  describe "when name is already taken" do
+    before do
+      user_with_same_name = FactoryGirl.create(:user, name: @user.name)
+      user_with_same_name.save
+    end
+
+    it { should_not be_valid }
   end
 
   # emailの一意性の保証
