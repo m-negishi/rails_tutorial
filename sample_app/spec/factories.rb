@@ -6,7 +6,7 @@ FactoryGirl.define do
     # 名前とメールアドレスを一意にするためにsequenceメソッドを使う
     # name 'Michael Hartl'
     # email 'michael@example.com'
-    sequence(:name) { |n| "Person #{n}" }
+    sequence(:name) { |n| "Person_#{n}" }
     sequence(:email) { |n| "person_#{n}@example.com" }
     password 'foobar'
     password_confirmation 'foobar'

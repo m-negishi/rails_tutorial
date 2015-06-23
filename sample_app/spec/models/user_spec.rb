@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   # beforeブロック内では、ただ属性のハッシュをnewに渡せるかどうかをテストしているだけ
-  before { @user = User.new(name: "Example User", email: "user@example.com", password: 'foobar', password_confirmation: 'foobar') }
+  before { @user = User.new(name: "Example_User", email: "user@example.com", password: 'foobar', password_confirmation: 'foobar') }
 
   subject{ @user }
 
@@ -42,6 +42,12 @@ describe User do
   # まずユーザーのnameに無効な値 (blank) を設定し、@userオブジェクトの結果も無効になることをテストして確認
   describe "when name is not present" do
     before { @user.name = " " }
+    it { should_not be_valid }
+  end
+
+  # ユーザ名に空白(スペース)を許容しない
+  describe "when name has some spaces" do
+    before { @user.name = " test user " }
     it { should_not be_valid }
   end
 

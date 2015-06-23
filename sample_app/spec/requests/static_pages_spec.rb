@@ -55,6 +55,16 @@ describe "StaticPages" do
         it { should have_link("0 following", href: following_user_path(user)) }
         it { should have_link("1 followers", href: followers_user_path(user)) }
       end
+
+      # Homeページにて、リプライが表示されている
+      # describe "should render the reply from other to user" do
+      #   let(:other_user) { FactoryGirl.create(:user) }
+      #   before do
+      #     FactoryGirl.create(:micropost, user: other_user, content: "@#{user.name} reply test")
+      #   end
+      #   
+      #   user.feed
+      # end
     end
   end
 

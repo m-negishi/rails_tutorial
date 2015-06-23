@@ -16,13 +16,17 @@ class User < ActiveRecord::Base
   # :followers属性の場合、外部キーは属性を単数形にしたfollower_idを自動で探してくれるため
   has_many :followers, through: :reverse_relationships, source: :follower
 
-  before_save { self.email = email.downcase }
+  before_save do
+    self.email = email.downcase
+    # self.name = name.gsub!(/\s/, '_')
+  end
   # 上記のように明示的にブロックで渡しているが、以下のようにメソッド参照（メソッドを探す）する方が一般的
   before_create :create_remember_token
 
   validates :name, presence: true,
                    length: { maximum: 50 },
-                   uniqueness: { case_sensitive: true }
+                   uniqueness: { case_sensitive: true },
+                   format: { without: /\s/ }
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true,

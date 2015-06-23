@@ -11,7 +11,7 @@ end
 def make_users
   # create!は、ユーザが無効な場合にfalseではなく例外を発生させるので、デバッグが容易に
   admin = User.create!(
-    name: "Example User",
+    name: "Example User".gsub!(/\s/, '_'),
     email: "example@railstutorial.jp",
     password: "foobar",
     password_confirmation: "foobar",
@@ -20,7 +20,7 @@ def make_users
 
   # 根岸デバッグ用
   User.create!(
-    name: "negi test",
+    name: "negi test".gsub!(/\s/, '_'),
     email: "negi@test.com",
     password: "neginegi",
     password_confirmation: "neginegi",
@@ -28,7 +28,7 @@ def make_users
   )
 
   98.times do |n|
-    name = Faker::Name.name
+    name = Faker::Name.name.gsub!(/\s/, '_')
     email = "example-#{n+1}@railstutorial.jp"
     password = "password"
     User.create!(

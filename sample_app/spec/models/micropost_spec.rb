@@ -12,6 +12,7 @@ describe Micropost do
 
   it { should respond_to(:content) }
   it { should respond_to(:user_id) }
+  # 返信用カラム
   it { should respond_to(:in_reply_to) }
   # micropost.userが返ってくるか
   it { should respond_to(:user) }
@@ -34,12 +35,5 @@ describe Micropost do
     before { @micropost.content = "a" * 141 }
     it { should_not be_valid }
   end
-
-  describe "with reply content is present" do
-    before do
-      @micropost.content = "@#{@micropost.user.name} reply test"
-    end
-
-    it { should be_valid }
-  end
+  
 end
