@@ -45,10 +45,25 @@ describe User do
     it { should_not be_valid }
   end
 
+  # describe "when name has space in head" do
+  #   before { @user.name = " test" }
+  #   it { should_not be_valid }
+  # end
+
   # ユーザ名に空白(スペース)を許容しない
   describe "when name has some spaces" do
     before { @user.name = " test user " }
     it { should_not be_valid }
+  end
+
+  describe "when name has space save" do
+    before do
+      @user.name = " test user "
+      @user.save
+    end
+    # binding.pry
+
+    # it {  } dbに保存するときに空白がどういう処理を受けるのか確認
   end
 
   # emailも同様に存在性の検証

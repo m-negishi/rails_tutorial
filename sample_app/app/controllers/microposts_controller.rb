@@ -5,6 +5,11 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
+    # binding.pry
+
+    # if @micropost.content =~ /@#{current_user.name}/
+    #   @micropost.in_reply_to = current_user.id
+    # end
     if @micropost.save
       flash[:success] = "Micropost created!"
       # root_pathと何が違う？

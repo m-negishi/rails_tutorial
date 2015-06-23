@@ -25,8 +25,9 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true,
                    length: { maximum: 50 },
-                   uniqueness: { case_sensitive: true },
-                   format: { without: /\s/ }
+                   uniqueness: { case_sensitive: true }#, # trueにした理由
+                  #  format: { without: /\s/ } # 全角は？ 元々先頭・末尾のスペースはどういう処理か？
+                  #  カラムにユニークキーを追加するかどうか
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true,

@@ -17,6 +17,6 @@ class Micropost < ActiveRecord::Base
     # ?を内挿すると自動的に色々補完してくれる
     # where("user_id IN (?) OR user_id = ?", followed_user_ids, user)
     # where("user_id IN (:followed_user_ids) OR user_id = :user_id", followed_user_ids: followed_user_ids, user_id: user)
-    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id", user_id: user.id)
+    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id OR in_reply_to = :user_id", user_id: user.id)
   end
 end

@@ -62,8 +62,8 @@ describe "StaticPages" do
       #   before do
       #     FactoryGirl.create(:micropost, user: other_user, content: "@#{user.name} reply test")
       #   end
-      #   
-      #   user.feed
+      #
+      #   it { should have_content("@{user.name} reply test") }
       # end
     end
   end
