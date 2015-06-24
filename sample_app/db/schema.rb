@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150622095646) do
+ActiveRecord::Schema.define(version: 20150624093422) do
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "content"
+    t.integer  "in_reply_to"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "messages", ["in_reply_to"], name: "index_messages_on_in_reply_to"
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
 
   create_table "microposts", force: :cascade do |t|
     t.string   "content"
