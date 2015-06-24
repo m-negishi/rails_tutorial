@@ -46,6 +46,7 @@ describe "StaticPages" do
 
       # Homeページにて、フォロー・フォロワーの数を表示
       describe "follower/following counts" do
+        # これ、DRYにするためにまとめられる
         let(:other_user) { FactoryGirl.create(:user) }
         before do
           other_user.follow!(user)
@@ -57,14 +58,17 @@ describe "StaticPages" do
       end
 
       # Homeページにて、リプライが表示されている
-      # describe "should render the reply from other to user" do
-      #   let(:other_user) { FactoryGirl.create(:user) }
-      #   before do
-      #     FactoryGirl.create(:micropost, user: other_user, content: "@#{user.name} reply test")
-      #   end
-      #
-      #   it { should have_content("@{user.name} reply test") }
-      # end
+      describe "should render the reply from other to user" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          user.save
+          other_user.save
+          FactoryGirl.create(:micropost, user: other_user, content: "@#{user.name} reply test")
+          visit root_path
+        end
+
+        it { should have_content("@#{user.name} reply test") }
+      end
     end
   end
 

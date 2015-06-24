@@ -4,6 +4,7 @@ namespace :db do
     # メソッドとして実行
     make_users
     make_microposts
+    make_replies
     make_relationships
   end
 end
@@ -48,11 +49,24 @@ def make_microposts
   end
 end
 
+def make_replies
+  users = User.limit(3)
+  reply_users = User.limit(3)
+  users.each do |user|
+    reply_users.each do |reply_user|
+      5.times do
+        content = "@#{reply_user.name} #{Faker::Lorem.sentence(5)}"
+        user.microposts.create!(content: content)
+      end
+    end
+  end
+end
+
 def make_relationships
   users = User.all
   user = users.first
   followed_users = users[2..50]
-  followers = users[3..40]
+  followers = users[1..40]
   followed_users.each { |followed| user.follow!(followed) }
   followers.each { |follower| follower.follow!(user) }
 end
