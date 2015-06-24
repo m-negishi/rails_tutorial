@@ -45,25 +45,21 @@ describe User do
     it { should_not be_valid }
   end
 
-  # describe "when name has space in head" do
-  #   before { @user.name = " test" }
-  #   it { should_not be_valid }
-  # end
-
-  # ユーザ名に空白(スペース)を許容しない
+  # ユーザ名に半角スペースを許容しない
   describe "when name has some spaces" do
-    before { @user.name = " test user " }
+    before { @user.name = " test user" }
+    it { should_not be_valid }
+  end
+
+  # ユーザ名に全角スペースを許容しない
+  describe "when name has some spaces" do
+    before { @user.name = "　test　user　" }
     it { should_not be_valid }
   end
 
   describe "when name has space save" do
-    before do
-      @user.name = " test user "
-      @user.save
-    end
-    # binding.pry
-
-    # it {  } dbに保存するときに空白がどういう処理を受けるのか確認
+    before { @user.name = " test user " }
+    it { should_not be_valid }
   end
 
   # emailも同様に存在性の検証
@@ -99,10 +95,10 @@ describe User do
     end
   end
 
-  # nameの一意性の保証
+  # nameの一意性の保証(大文字小文字を区別しない)
   describe "when name is already taken" do
     before do
-      user_with_same_name = FactoryGirl.create(:user, name: @user.name)
+      user_with_same_name = FactoryGirl.create(:user, name: @user.name.upcase)
       user_with_same_name.save
     end
 
