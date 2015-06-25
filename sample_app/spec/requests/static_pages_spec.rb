@@ -119,4 +119,14 @@ describe "StaticPages" do
     click_link 'sample app'
     expect(page).to have_title(full_title(''))
   end
+
+  describe "Message Page" do
+    before { visit message_path }
+
+    let(:heading) { 'Message' }
+    let(:page_title) { 'Message' }
+
+    # shared_example_forを呼び出す
+    it_should_behave_like "all static pages"
+  end
 end
