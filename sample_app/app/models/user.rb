@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   # :followers属性の場合、外部キーは属性を単数形にしたfollower_idを自動で探してくれるため
   has_many :followers, through: :reverse_relationships, source: :follower
   # メッセージ機能
-  has_many :messages
+  has_many :messages, dependent: :destroy
 
   before_save { self.email = email.downcase }
   # 上記のように明示的にブロックで渡しているが、以下のようにメソッド参照（メソッドを探す）する方が一般的

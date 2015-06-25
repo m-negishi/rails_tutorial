@@ -236,16 +236,33 @@ describe User do
   end
 
   describe "message asociations" do
-    before { @user.save }
+    let(:other_user) { FactoryGirl.create(:user) }
+    before do
+      @user.save
+      other_user.save
+    end
+
     let!(:older_message) do
-      FactoryGirl.create(:message, user: @user, created_at: 1.day.ago)
+      # 下記、@ユーザから自動でin_reply_toにidが入るようにmodelに書く
+      FactoryGirl.create(:message, user: @user, created_at: 1.day.ago, content: "@#{other_user.name} message test", in_reply_to: other_user.id)
     end
     let!(:newer_message) do
-      FactoryGirl.create(:message, user: @user, created_at: 1.hour.ago)
+      FactoryGirl.create(:message, user: @user, created_at: 1.hour.ago, content: "@#{other_user.name} message test", in_reply_to: other_user.id)
     end
 
     it "should have the right messages in the right order" do
-      expect(@user.message.to_a).to eq [newer_message, older_message]
+      expect(@user.messages.to_a).to eq [newer_message, older_message]
+    end
+
+    it "should destroy associated messages" do
+      # to_aは、配列をコピーして新しく生成したArrayオブジェクトを返す
+      messages = @user.messages.to_a
+      @user.destroy
+      # to_aが無いと、上記のdestroyでmessageも消える
+      expect(messages).not_to be_empty
+      messages.each do |message|
+        expect(Message.where(id: message.id)).to be_empty
+      end
     end
   end
 end

@@ -21,7 +21,7 @@ describe Message do
   end
 
   describe "when user_id is not present" do
-    before { @message.user_id = '' }
+    before { @message.user_id = nil }
     it { should_not be_valid }
   end
 
