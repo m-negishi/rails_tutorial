@@ -12,7 +12,13 @@ class MicropostsController < ApplicationController
       redirect_to root_url
     else
       @feed_items = []
-      render 'static_pages/home'
+      redirect_to root_url
+      # renderで書くと、レイアウトを更新するだけなので、
+      # 複数フォームを設置している場合、他方のモデルオブジェクトがnilになってしまう
+      # messageモデルのformのためにリダイレクトで戻るようにした
+      # @micropost = current_user.microposts.build
+      # @message = current_user.messages.build
+      # render 'static_pages/home'
     end
   end
 

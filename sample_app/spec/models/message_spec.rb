@@ -4,7 +4,7 @@ describe Message do
   # pending "add some examples to (or delete) #{__FILE__}"
   let(:user) { FactoryGirl.create(:user) }
   let(:reply_user) { FactoryGirl.create(:user) }
-  before { @message = user.messages.build(content: "Lorem ipsum", in_reply_to: reply_user.id) }
+  before { @message = user.messages.build(content: "@#{user.name} Lorem ipsum", in_reply_to: reply_user.id) }
 
   subject { @message }
 
@@ -39,5 +39,10 @@ describe Message do
     before { @message.content = "a" * 141 }
     it { should_not be_valid }
   end
+
+  # describe "when content has 'd ' that is removed" do
+  #   before { @message.content = "d @#{user.name} test" }
+  #   it { should eq }
+  # end
 
 end

@@ -14,7 +14,7 @@ def make_users
   # create!は、ユーザが無効な場合にfalseではなく例外を発生させるので、デバッグが容易に
   admin = User.create!(
     name: "Example_User",
-    email: "example@railstutorial.jp",
+    email: "test@test.com",
     password: "foobar",
     password_confirmation: "foobar",
     admin: true
@@ -78,7 +78,7 @@ def make_messages
   users.each do |user|
     reply_users.each do |reply_user|
       10.times do
-        content = "d @#{reply_user.name} #{Faker::Lorem.sentence(5)}"
+        content = "@#{reply_user.name} #{Faker::Lorem.sentence(5)}"
         user.messages.create!(content: content, in_reply_to: user.id)
       end
     end
