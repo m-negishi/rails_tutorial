@@ -27,6 +27,7 @@ private
     if /(@)(\w+)/i =~ self.content
       reply_to_user = User.find_by(name: $2)
       self.in_reply_to = reply_to_user.id unless reply_to_user.nil?
+      # unlessに引っかかった時の処理は考慮しているのか
     end
   end
 end

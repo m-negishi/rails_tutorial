@@ -8,11 +8,21 @@ class MessagesController < ApplicationController
 
   def create
     @message = current_user.messages.build(message_params)
+    # binding.pry
+    # (@)は不要
+    # 正規表現iオプション不要
+    # nameの正規表現あっているのか？
+    if /(@)(\w+)/i =~ @message.content
+      reply_to_user = User.find_by(name: $2)
+      @message.in_reply_to = reply_to_user.id unless reply_to_user.nil?
+    end
 
     if @message.save
       flash[:success] = "Message sended!"
       redirect_to root_url
     else
+      # raise @message.inspect
+      flash[:error] = "Should have whom you send"
       redirect_to root_url
       # なぜredirect_toにしたかは、micropost_controllerのcreateアクション参照
       # @micropost = current_user.microposts.build

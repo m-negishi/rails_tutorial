@@ -34,18 +34,21 @@ describe Micropost do
 
   describe "with content that is too long" do
     before { @micropost.content = "a" * 141 }
+    # binding.pry
     it { should_not be_valid }
   end
 
-  # describe "with reply content that has in_reply_to" do
-  #   before do
-  #     reply_content = user.microposts.build(content: "@#{other_user.name} reply content")
-  #     # @reply_content.user_id = user.id
-  #   end
-  #   # binding.pry
-  #
-  #   # its(@reply_content) { should have_attribute(in_reply_to: other_user.id) }
-  #   # expect(@reply_content).to have_attribute(in_reply_to: other_user.id)
-  # end
+  describe "with reply content that has in_reply_to" do
+    before do
+      @reply_content = user.microposts.build(content: "@#{other_user.name} reply content")
+      # @reply_content.user_id = user.id
+    end
+    # binding.pry
+    it "in_reply_to" do
+      expect(@reply_content).to have_attribute(in_reply_to: other_user.id)
+    end
+    # its(@reply_content) { should have_attribute(in_reply_to: other_user.id) }
+    # expect(@reply_content).to have_attribute(in_reply_to: other_user.id)
+  end
 
 end
