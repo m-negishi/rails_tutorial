@@ -22,4 +22,9 @@ FactoryGirl.define do
     # ここにuserを含めるだけで、関連付けができる
     user
   end
+
+  # factory :message do
+  #   content "Lorem ipsum"
+  #   user
+  # end
 end

@@ -234,4 +234,18 @@ describe User do
       its(:followed_users) { should_not include(other_user) }
     end
   end
+
+  # describe "message asociations" do
+  #   before { @user.save }
+  #   let!(:older_message) do
+  #     FactoryGirl.create(:message, user: @user, created_at: 1.day.ago)
+  #   end
+  #   let!(:newer_message) do
+  #     FactoryGirl.create(:message, user: @user, created_at: 1.hour.ago)
+  #   end
+  #
+  #   it "should have the right messages in the right order" do
+  #     expect(@user.message.to_a).to eq [newer_message, older_message]
+  #   end
+  # end
 end
