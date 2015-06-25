@@ -61,6 +61,7 @@ describe "AuthenticationPages" do
       it { should_not have_link('Profile', href: user_path(user)) }
       it { should_not have_link('Settings', href: edit_user_path(user)) }
       it { should_not have_link('Sign out', href: signout_path) }
+      it { should_not have_link('Message', href: message_path) }
 
       # フレンドリーフォワーディング
       # ログイン前にアクセスしようとしていたページにリダイレクトする
@@ -151,6 +152,13 @@ describe "AuthenticationPages" do
           # 作成のオーバヘッドを回避するために、deleteテストにはid=1を直接指定してる
           before { delete relationship_path(1) }
           specify { expect(response).to redirect_to(signin_path) }
+        end
+      end
+
+      describe "in the Messages controller" do
+        describe "visiting the messages page" do
+          before { visit message_path }
+          it { should have_title('Sign in') }
         end
       end
     end
