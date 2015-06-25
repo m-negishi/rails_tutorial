@@ -23,8 +23,8 @@ FactoryGirl.define do
     user
   end
 
-  # factory :message do
-  #   content "Lorem ipsum"
-  #   user
-  # end
+  factory :message do
+    content "Lorem ipsum"
+    user
+  end
 end

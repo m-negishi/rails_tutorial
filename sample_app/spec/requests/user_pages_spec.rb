@@ -173,7 +173,7 @@ describe "Users pages" do
     describe "with valid information" do
       before do
         # フォームに値を入れる
-        fill_in "Name", with: "Example User"
+        fill_in "Name", with: "Example_User"
         fill_in "Email", with: "user@example.com"
         fill_in "Password", with: "foobar"
         fill_in "Confirmation", with: "foobar"
@@ -218,7 +218,7 @@ describe "Users pages" do
     end
 
     describe "with valid information" do
-      let(:new_name) { "New Name" }
+      let(:new_name) { "New_Name" }
       let(:new_email) { "new@exapmle.com" }
 
       before do
