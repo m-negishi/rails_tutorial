@@ -6,6 +6,7 @@ namespace :db do
     make_microposts
     make_replies
     make_relationships
+    make_messages
   end
 end
 
@@ -69,4 +70,17 @@ def make_relationships
   followers = users[1..40]
   followed_users.each { |followed| user.follow!(followed) }
   followers.each { |follower| follower.follow!(user) }
+end
+
+def make_messages
+  users = User.limit(6)
+  reply_users = User.limit(6)
+  users.each do |user|
+    reply_users.each do |reply_user|
+      10.times do
+        content = "d @#{reply_user.name} #{Faker::Lorem.sentence(5)}"
+        user.messages.create!(content: content, in_reply_to: user.id)
+      end
+    end
+  end
 end

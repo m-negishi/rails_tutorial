@@ -1,2 +1,9 @@
 <% provide(:title, 'Message') %>
 <h1>Message</h1>
+<div class="message_feed">
+  <% if @messages.any? %>
+    <ol class="messages">
+      <%= render partial: 'message', collection: @messages %>
+    </ol>
+  <% end %>
+</div>
