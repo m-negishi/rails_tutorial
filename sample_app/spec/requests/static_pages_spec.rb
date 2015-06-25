@@ -10,6 +10,8 @@ describe "StaticPages" do
   # end
 
   let(:base_title) { "Ruby on Rails Tutorial Sample App" }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:other_user) { FactoryGirl.create(:user) }
 
   shared_examples_for "all static pages" do
     it { should have_content(heading) }
@@ -29,7 +31,6 @@ describe "StaticPages" do
     it { should_not have_title('| Home') }
 
     describe "for signed_in users" do
-      let(:user) { FactoryGirl.create(:user) }
       before do
         FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
         FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
@@ -47,7 +48,7 @@ describe "StaticPages" do
       # Homeページにて、フォロー・フォロワーの数を表示
       describe "follower/following counts" do
         # これ、DRYにするためにまとめられる
-        let(:other_user) { FactoryGirl.create(:user) }
+        # let(:other_user) { FactoryGirl.create(:user) }
         before do
           other_user.follow!(user)
           visit root_path
@@ -59,7 +60,7 @@ describe "StaticPages" do
 
       # Homeページにて、リプライが表示されている
       describe "should render the reply from other to user" do
-        let(:other_user) { FactoryGirl.create(:user) }
+        # let(:other_user) { FactoryGirl.create(:user) }
         before do
           user.save
           other_user.save
@@ -118,15 +119,5 @@ describe "StaticPages" do
 
     click_link 'sample app'
     expect(page).to have_title(full_title(''))
-  end
-
-  describe "Message Page" do
-    before { visit message_path }
-
-    let(:heading) { 'Message' }
-    let(:page_title) { 'Message' }
-
-    # shared_example_forを呼び出す
-    it_should_behave_like "all static pages"
   end
 end
