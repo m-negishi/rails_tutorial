@@ -52,6 +52,7 @@ class MicropostsController < ApplicationController
     # TODO: message modelに移行するか、返信機能と共通化したい
     def reply_message(message)
       if /@(.+)[[:space:]]/ =~ message.content
+        # binding.pry
         reply_to_user = User.find_by(name: $1)
         message.in_reply_to = reply_to_user.id unless reply_to_user.nil?
         # TODO: ユーザが存在しない場合の処理を追加？
