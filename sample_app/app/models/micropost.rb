@@ -10,8 +10,6 @@ class Micropost < ActiveRecord::Base
   def self.from_users_followed_by(user)
     # followed_user_idsメソッドは、has_many: :followed_usersから自動生成される
     #
-    # なんでSQLで書きなおすのかわかってない
-    # 集合のロジックをDBに保存するから効率がいい？
     # followed_user_ids = user.followed_user_ids
     followed_user_ids = "SELECT followed_id FROM relationships
                          WHERE follower_id = :user_id"
@@ -24,10 +22,11 @@ class Micropost < ActiveRecord::Base
 private
 
   def reply_post
-    if /(@)(\w+)/i =~ self.content
-      reply_to_user = User.find_by(name: $2)
+    if /@(.+)[[:space:]]/ =~ self.content
+      reply_to_user = User.find_by(name: $1)
       self.in_reply_to = reply_to_user.id unless reply_to_user.nil?
       # unlessに引っかかった時の処理は考慮しているのか
+        # Twitterは@user_nameが存在しない場合でも、リプライツイートとしてpostできているのでヨシとする
     end
   end
 end

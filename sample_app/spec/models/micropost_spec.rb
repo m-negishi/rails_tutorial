@@ -40,15 +40,13 @@ describe Micropost do
 
   describe "with reply content that has in_reply_to" do
     before do
-      @reply_content = user.microposts.build(content: "@#{other_user.name} reply content")
-      # @reply_content.user_id = user.id
+      @micropost.content = "@#{other_user.name} reply content"
+      @micropost.save
+      # modelのbefore_saveが実行されていない？
     end
-    # binding.pry
-    it "in_reply_to" do
-      expect(@reply_content).to have_attribute(in_reply_to: other_user.id)
+    it "has in_reply_to" do
+      expect(@micropost.in_reply_to).to eq other_user.id
     end
-    # its(@reply_content) { should have_attribute(in_reply_to: other_user.id) }
-    # expect(@reply_content).to have_attribute(in_reply_to: other_user.id)
   end
 
 end
