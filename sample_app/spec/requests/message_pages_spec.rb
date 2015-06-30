@@ -29,47 +29,21 @@ describe "Message Pages" do
     # end
   end
 
-  describe "message creation" do
-    before { visit root_path }
+  # describe "pagination" do
+  #   # before(:all)は一度だけ実行される
+  #   before do
+  #     40.times { FactoryGirl.create(:message, user: user, in_reply_to: other_user.id) }
+  #     visit message_path
+  #   end
+  #
+  #   it { should have_selector('div.pagination') }
+  #
+  #   it "should list each micropost" do
+  #     # ページネーション
+  #     user.messages.paginate(page: 1).each do |message|
+  #       # expect(page).to have_selector('li', text: message.content)
+  #     end
+  #   end
+  # end
 
-    describe "with invalid information" do
-    #
-      it "should not create a message" do
-        expect { click_button "Send" }.not_to change(Message, :count)
-      end
-
-      # パスしないので一旦コメントアウト
-      # describe "error messages" do
-      #   before { click_button "Send" }
-      #   it { should have_content('error') }
-      # end
-    end
-
-    describe "with valid information" do
-
-      before { fill_in 'message_content', with: "@#{user.name} Lorem ipsum" }
-
-      it "should create a message" do
-        # expect { click_button "Send" }.to change(Message, :count).by(1)
-      end
-
-      # describe "should have correct count when create a post" do
-      #   before { click_button "Post" }
-      #
-      #   it { should have_content('1 micropost') }
-      #   it { should_not have_content('1 microposts') }
-      # end
-      #
-      # describe "should have correct count when create 2 posts" do
-      #   before do
-      #     click_button "Post"
-      #     # 2つ目のpost
-      #     fill_in 'micropost_content', with: "Lorem ipsum"
-      #     click_button "Post"
-      #   end
-      #
-      #   it { should have_content('2 microposts') }
-      # end
-    end
-  end
 end

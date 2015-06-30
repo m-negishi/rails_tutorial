@@ -1,5 +1,5 @@
 <li>
-  <span class="content"><%= message.content %></span>
+  <span class="content"><%= wrap(message.content) %></span>
   <span class="timestamp">
     <!-- time_ago_in_wordsはDateHelperクラスのメソッド -->
     Posted <%= time_ago_in_words(message.created_at) %> ago.

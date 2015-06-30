@@ -54,6 +54,10 @@ class User < ActiveRecord::Base
     Micropost.from_users_followed_by(self)
   end
 
+  def message_feed
+    Message.reply_to(self)
+  end
+
   # あるユーザが別のあるユーザをフォローしているかチェック
   def following?(other_user)
     relationships.find_by(followed_id: other_user.id)
