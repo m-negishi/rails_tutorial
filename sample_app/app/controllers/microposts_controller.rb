@@ -6,13 +6,17 @@ class MicropostsController < ApplicationController
 
   def create
     if message?(params[:micropost][:content])
-      @message = current_user.messages.build(micropost_params)
-      reply_message(@message)
-      remove_string_d(@message)
-      if @message.save
-        flash[:success] = "Message sent!"
+      if reply_to?(params[:micropost][:content])
+        @message = current_user.messages.build(micropost_params)
+        reply_message(@message)
+        remove_string_d(@message)
+        if @message.save
+          flash[:success] = "Message sent!"
+        else
+          flash[:error] = 'Sorry, did not send.'
+        end
       else
-        flash[:error] = 'Sorry, did not send.'
+        flash[:error] = 'Please enter whom reply to.'
       end
       redirect_to root_url
     else

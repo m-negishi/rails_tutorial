@@ -9,6 +9,8 @@ class Message < ActiveRecord::Base
   def self.reply_to(user)
     # where(in_reply_to: user.id, user_id: user.id)
     where("user_id = :user_id OR in_reply_to = :user_id", user_id: user.id)
+    # ここで、user_idとin_reply_toの組み合わせをまとめたい
+    # group('user_id, in_reply_to')
   end
 
   private
