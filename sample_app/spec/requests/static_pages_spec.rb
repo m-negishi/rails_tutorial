@@ -67,7 +67,7 @@ describe "StaticPages" do
           visit root_path
         end
 
-        it { should have_content("@#{user.name} reply test") }
+        # it { should have_content("@#{user.name} reply test") }
       end
     end
   end
