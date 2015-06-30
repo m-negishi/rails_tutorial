@@ -22,6 +22,7 @@ describe RelationshipsController do
     it "should respond with success" do
       xhr :post, :create, relationship: { followed_id: other_user.id }
       expect(response).to be_success
+      # route_defined?(relationships_path{ followed_id: other_user.id })
     end
   end
 
