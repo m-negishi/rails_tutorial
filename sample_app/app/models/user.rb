@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :followers, through: :reverse_relationships, source: :follower
   # メッセージ機能
   has_many :messages, dependent: :destroy
+  has_many :conversations, dependent: :destroy
 
   before_save { self.email = email.downcase }
   # 上記のように明示的にブロックで渡しているが、以下のようにメソッド参照（メソッドを探す）する方が一般的
@@ -54,8 +55,8 @@ class User < ActiveRecord::Base
     Micropost.from_users_followed_by(self)
   end
 
-  def message_feed
-    Message.reply_to(self)
+  def message_feed(other_user_id)
+    Message.reply_to(self, other_user_id)
   end
 
   # あるユーザが別のあるユーザをフォローしているかチェック
@@ -73,6 +74,20 @@ class User < ActiveRecord::Base
   def unfollow!(other_user)
     relationships.find_by(followed_id: other_user.id).destroy
   end
+
+  def save_conversation(other_user)
+    # TODO: SQL2回発行されるの何とかならないか?
+    conversation = conversations.find_by(partner_id: other_user.id)
+    if conversation
+      conversation.update(updated_at: Time.now)
+    else
+      conversations.create(partner_id: other_user.id)
+    end
+  end
+
+  # def conversation_feed
+  #   Conversation.feed(self)
+  # end
 
   private
 

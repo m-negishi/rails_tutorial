@@ -77,9 +77,11 @@ def make_messages
   reply_users = User.limit(6)
   users.each do |user|
     reply_users.each do |reply_user|
+      user.conversations.create!(partner_id: reply_user.id)
       10.times do
         content = "@#{reply_user.name} #{Faker::Lorem.sentence(5)}"
-        user.messages.create!(content: content, in_reply_to: user.id)
+        user.messages.create!(content: content, in_reply_to: reply_user.id)
+        user.conversations.find_by(partner_id: reply_user.id).update(updated_at: Time.now)
       end
     end
   end

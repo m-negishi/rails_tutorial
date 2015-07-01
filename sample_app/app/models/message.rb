@@ -5,10 +5,11 @@ class Message < ActiveRecord::Base
   validates :in_reply_to, presence: true
   validates :content, presence: true, length: { maximum: 140 }
   # before_save :reply_post
+  before_save :save_conversation
 
-  def self.reply_to(user)
+  def self.reply_to(user, other_user_id)
     # where(in_reply_to: user.id, user_id: user.id)
-    where("user_id = :user_id OR in_reply_to = :user_id", user_id: user.id)
+    where("(user_id = :user_id AND in_reply_to = :other_user_id) OR (user_id = :other_user_id AND in_reply_to = :user_id)", user_id: user.id, other_user_id: other_user_id)
     # ここで、user_idとin_reply_toの組み合わせをまとめたい
     # group('user_id, in_reply_to')
   end
@@ -25,7 +26,8 @@ class Message < ActiveRecord::Base
   #   end
   # end
 
-
-
+  def save_conversation
+    self.user.conversations.find_by(partner_id: in_reply_to).update(updated_at: Time.now)
+  end
 
 end

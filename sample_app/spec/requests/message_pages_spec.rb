@@ -12,8 +12,8 @@ describe "Message Pages" do
     visit message_path
   end
 
-  it { should have_title('Message') }
-  it { should have_content('Message') }
+  it { should have_title('Messages') }
+  it { should have_content('Messages') }
 
   # Messageページにて、リプライが表示されている
   describe "should render the reply from other to user" do

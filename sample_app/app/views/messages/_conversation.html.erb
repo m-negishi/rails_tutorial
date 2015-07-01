@@ -1,0 +1,12 @@
+<li>
+  <div>
+    <%= link_to gravatar_for(conversation.partner), conversation.partner %>
+    <span><%= link_to conversation.partner.name, message_path(conversation.partner.id) %></span>
+  </div>
+  <div>
+    <span class="timestamp">
+      <!-- time_ago_in_wordsはDateHelperクラスのメソッド -->
+      Last Conversation <%= time_ago_in_words(conversation.updated_at) %> ago.
+    </span>
+  </div>
+</li>

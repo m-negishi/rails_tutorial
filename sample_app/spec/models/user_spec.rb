@@ -23,6 +23,7 @@ describe User do
   it { should respond_to(:follow!) }
   it { should respond_to(:unfollow!) }
   it { should respond_to(:messages) }
+  it { should respond_to(:conversations) }
 
   # あるオブジェクトが、真偽値を返すfoo?というメソッドに応答するのであれば、それに対応するbe_fooというテストメソッドが (自動的に)存在します。
   it { should be_valid }

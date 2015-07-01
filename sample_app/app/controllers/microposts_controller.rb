@@ -54,8 +54,12 @@ class MicropostsController < ApplicationController
       if /@(.+)[[:space:]]/ =~ message.content
         # binding.pry
         reply_to_user = User.find_by(name: $1)
-        message.in_reply_to = reply_to_user.id unless reply_to_user.nil?
-        # TODO: ユーザが存在しない場合の処理を追加？
+        if reply_to_user.nil?
+          # TODO: ユーザが存在しない場合の処理を追加？
+          # エラーメッセージ後、リダイレクト？
+        else
+          message.in_reply_to = reply_to_user.id
+        end
       end
     end
 
@@ -63,5 +67,4 @@ class MicropostsController < ApplicationController
       # TODO: 正規表現がmessages_helperと共通
       message.content.slice!(/^d\s/)
     end
-
 end
