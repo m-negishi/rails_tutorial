@@ -1,12 +1,26 @@
-<li>
-  <div>
-    <%= link_to gravatar_for(conversation.partner), conversation.partner %>
-    <span><%= link_to conversation.partner.name, message_path(conversation.partner.id) %></span>
-  </div>
-  <div>
-    <span class="timestamp">
-      <!-- time_ago_in_wordsはDateHelperクラスのメソッド -->
-      Last Conversation <%= time_ago_in_words(conversation.updated_at) %> ago.
-    </span>
-  </div>
-</li>
+<!-- TODO: 下記リファクタリング -->
+<% if conversation.partner != current_user %>
+  <li>
+    <div>
+      <%= link_to gravatar_for(conversation.partner), conversation.partner %>
+      <span><%= link_to conversation.partner.name, message_path(conversation.partner.id) %></span>
+    </div>
+    <div>
+      <span class="timestamp">
+        Last Conversation <%= time_ago_in_words(conversation.updated_at) %> ago.
+      </span>
+    </div>
+  </li>
+<% else %>
+  <li>
+    <div>
+      <%= link_to gravatar_for(conversation.partner), conversation.user %>
+      <span><%= link_to conversation.user.name, message_path(conversation.user.id) %></span>
+    </div>
+    <div>
+      <span class="timestamp">
+        Last Conversation <%= time_ago_in_words(conversation.updated_at) %> ago.
+      </span>
+    </div>
+  </li>
+<% end %>

@@ -75,20 +75,6 @@ class User < ActiveRecord::Base
     relationships.find_by(followed_id: other_user.id).destroy
   end
 
-  def save_conversation(other_user)
-    # TODO: SQL2回発行されるの何とかならないか?
-    conversation = conversations.find_by(partner_id: other_user.id)
-    if conversation
-      conversation.update(updated_at: Time.now)
-    else
-      conversations.create(partner_id: other_user.id)
-    end
-  end
-
-  # def conversation_feed
-  #   Conversation.feed(self)
-  # end
-
   private
 
     def create_remember_token

@@ -8,10 +8,7 @@ class Message < ActiveRecord::Base
   before_save :save_conversation
 
   def self.reply_to(user, other_user_id)
-    # where(in_reply_to: user.id, user_id: user.id)
     where("(user_id = :user_id AND in_reply_to = :other_user_id) OR (user_id = :other_user_id AND in_reply_to = :user_id)", user_id: user.id, other_user_id: other_user_id)
-    # ここで、user_idとin_reply_toの組み合わせをまとめたい
-    # group('user_id, in_reply_to')
   end
 
   private
@@ -27,7 +24,12 @@ class Message < ActiveRecord::Base
   # end
 
   def save_conversation
-    self.user.conversations.find_by(partner_id: in_reply_to).update(updated_at: Time.now)
+    conversation = self.user.conversations.find_by(partner_id: in_reply_to)
+    if conversation.nil?
+      self.user.conversations.create(partner_id: in_reply_to)
+    else
+      conversation.update(updated_at: Time.now)
+    end
   end
 
 end
