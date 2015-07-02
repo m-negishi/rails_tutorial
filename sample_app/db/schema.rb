@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20150701053411) do
   end
 
   add_index "conversations", ["user_id", "partner_id"], name: "index_conversations_on_user_id_and_partner_id", unique: true
+  # TODO: conversationsテーブルの変更
+  # add_index "conversations", "partner_id", name: "index_conversations_on_user_id_and_partner_id"
+  # 一度にひとつしかindexが使えないので、2つのindexが必要なクエリを使うとなると意味ない
+  # 2つのクエリに分けて検索すれば、それぞれにindexが使えるので、その結果をマージすれば取得できる
+  # が、2つのクエリを実行するより良い方法がないか？
+  # user_id と partner_idの大小を比較して、アプリケーション側で一意になるようにする
+  # カラム名にも、idの大小がわかるようなカラム名にしておく
 
   create_table "messages", force: :cascade do |t|
     t.integer  "user_id",     null: false
