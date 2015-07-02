@@ -22,7 +22,8 @@ class Micropost < ActiveRecord::Base
 private
 
   def reply_post
-    if /@(.+)[[:space:]]/ =~ self.content
+    # TODO: replyの正規表現一元管理したい
+    if /@([a-z]+(_*[a-z]*\d*)*)([[:space:]]|\z)/i =~ self.content
       reply_to_user = User.find_by(name: $1)
       self.in_reply_to = reply_to_user.id unless reply_to_user.nil?
       # unlessに引っかかった時の処理は考慮しているのか

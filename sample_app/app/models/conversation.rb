@@ -6,6 +6,6 @@ class Conversation < ActiveRecord::Base
   default_scope -> { order('updated_at DESC') }
 
   def self.feed(user)
-    where("user_id = :user_id OR partner_id = :user_id", user_id: user.id)
+    where("user_id = :user_id OR partner_id = :user_id", user_id: user.id).where.not(["user_id = ? and partner_id = ?", user.id, user.id])
   end
 end
