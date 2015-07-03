@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
   validates :name, presence: true,
                    length: { maximum: 50 },
                    uniqueness: { case_sensitive: false },
-                   format: { with: /\A[a-z]+(_*[a-z]*\d*)*/i }
-                  #  TODO: 正規表現一元管理したい
+                   format: { with: /\A[a-z]+\w*/i }
+                   # TODO: reply機能の正規表現と一緒に一元管理したい
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true,

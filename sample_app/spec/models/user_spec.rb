@@ -54,14 +54,26 @@ describe User do
   end
 
   # ユーザ名に全角スペースを許容しない
-  describe "when name has some spaces" do
-    before { @user.name = "　test　user　" }
-    it { should_not be_valid }
-  end
-
   describe "when name has space save" do
     before { @user.name = " test user " }
     it { should_not be_valid }
+  end
+
+  # ユーザ名が英字から始まる
+  describe "when name starts under score" do
+    before { @user.name = "_testuser" }
+    it { should_not be_valid }
+  end
+
+  describe "when name starts number" do
+    before { @user.name = "2_test_user" }
+    it { should_not be_valid }
+  end
+
+  # 2文字目以降は英字、数字、アンダースコアが使える
+  describe "when name has under score, alphabet and number" do
+    before { @user.name = "Te_st_2_Us3er5"}
+    it { should be_valid }
   end
 
   # emailも同様に存在性の検証
