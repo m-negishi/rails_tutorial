@@ -51,7 +51,7 @@ class MicropostsController < ApplicationController
 
     # TODO: message modelに移行するか、返信機能と共通化したい
     def reply_message(message)
-      if /@(\w+)([[:space:]]|\z)/i =~ message.content
+      if VALID_REPLY_USER_REGEX =~ message.content
         reply_to_user = User.find_by(name: $1)
         if reply_to_user.nil?
           # TODO: ユーザが存在しない場合の処理を追加？
@@ -63,7 +63,6 @@ class MicropostsController < ApplicationController
     end
 
     def remove_string_d(message)
-      # TODO: 正規表現がmessages_helperと共通
-      message.content.slice!(/^d\s/)
+      message.content.slice!(MESSAGE_PREFIX_REGEX)
     end
 end
