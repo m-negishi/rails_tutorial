@@ -1,11 +1,16 @@
-<!-- TODO: 下記リファクタリング -->
+<!-- TODO: 下記partialで分割したい -->
 <% if conversation.partner != current_user %>
   <li>
     <div>
       <%= link_to gravatar_for(conversation.partner), conversation.partner %>
-      <span><%= link_to conversation.partner.name, message_path(conversation.partner.id) %></span>
+      <span>
+        <%= link_to conversation.partner.name, message_path(conversation.partner.id) %>
+      </span>
     </div>
     <div>
+      <span class="content">
+        <%= conversation.partner.last_message(conversation.user).content %>
+      </span>
       <span class="timestamp">
         Last Conversation <%= time_ago_in_words(conversation.updated_at) %> ago.
       </span>
@@ -14,10 +19,13 @@
 <% else %>
   <li>
     <div>
-      <%= link_to gravatar_for(conversation.partner), conversation.user %>
+      <%= link_to gravatar_for(conversation.user), conversation.user %>
       <span><%= link_to conversation.user.name, message_path(conversation.user.id) %></span>
     </div>
     <div>
+      <span class="content">
+        <%= conversation.user.last_message(conversation.partner).content %>
+      </span>
       <span class="timestamp">
         Last Conversation <%= time_ago_in_words(conversation.updated_at) %> ago.
       </span>

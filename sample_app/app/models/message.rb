@@ -11,6 +11,13 @@ class Message < ActiveRecord::Base
     where("(user_id = :user_id AND in_reply_to = :other_user_id) OR (user_id = :other_user_id AND in_reply_to = :user_id)", user_id: user.id, other_user_id: other_user_id)
   end
 
+  def self.last_message(user, other_user)
+    # where("(user_id = :user_id AND in_reply_to = :other_user_id) OR (user_id = :other_user_id AND in_reply_to = :user_id)", user_id: user.id, other_user_id: other_user.id).first
+    # 上記の書き方はrails-style-guideにbadな例として掲載されてる
+    # https://github.com/bbatsov/rails-style-guide#find_by
+    find_by("(user_id = :user_id AND in_reply_to = :other_user_id) OR (user_id = :other_user_id AND in_reply_to = :user_id)", user_id: user.id, other_user_id: other_user.id)
+  end
+
   private
   # TODO: micropostと共通メソッドなので要リファクタリング
   # TODO: 今はcontrollerで処理してる(なぜかbefore_saveが動作しない)

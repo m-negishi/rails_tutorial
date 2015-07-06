@@ -59,6 +59,11 @@ class User < ActiveRecord::Base
     Message.reply_to(self, other_user_id)
   end
 
+  # メッセージやりとり中の最後のメッセージを取得
+  def last_message(other_user)
+    Message.last_message(self, other_user)
+  end
+
   # あるユーザが別のあるユーザをフォローしているかチェック
   def following?(other_user)
     relationships.find_by(followed_id: other_user.id)

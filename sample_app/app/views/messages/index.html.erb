@@ -2,7 +2,7 @@
   <% provide(:title, 'Messages') %>
   <h1>Messages</h1>
   <div class="message_feed">
-    <% if @conversations.any?#@messages.any? %>
+    <% if @conversations.any? %>
       <ol class="messages">
         <%= render partial: 'conversation', collection: @conversations %>
       </ol>
